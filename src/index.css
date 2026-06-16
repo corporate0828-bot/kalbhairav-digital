@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer utilities {
+  /* Customs for Sleek Interface premium luxury aesthetics */
+  .text-glow-purple {
+    text-shadow: 0 0 16px rgba(139, 92, 246, 0.5), 0 0 4px rgba(139, 92, 246, 0.2);
+  }
+  .box-glow-purple {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.12);
+  }
+  .box-glow-purple-strong {
+    box-shadow: 0 0 50px rgba(139, 92, 246, 0.35);
+  }
+  .sleek-border {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 9px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6366f1;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #05070c;
+  color: #f1f5f9;
+  font-family: var(--font-sans);
+}
+
+body {
+  overflow-x: hidden;
+  background-color: #05070c;
+}
+
+/* Glassmorphism custom classes */
+.glass-panel {
+  background: rgba(10, 15, 30, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.glass-panel-hover {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-panel-hover:hover {
+  background: rgba(17, 24, 48, 0.75);
+  border-color: rgba(139, 92, 246, 0.35);
+  box-shadow: 0 15px 45px -10px rgba(139, 92, 246, 0.18);
+  transform: translateY(-2px);
+}
+
+/* Neon animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(1.05);
+  }
+}
+
+.neon-gradient-bg {
+  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.12), transparent 75%);
+  animation: pulseGlow 12s infinite ease-in-out;
+}
