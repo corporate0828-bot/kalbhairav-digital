@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+const logoUrl = 'https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/90625502b1b8942bf7f9789430d2bc6a0624444c/WhatsApp%20Image%202026-06-16%20at%2022.42.34.jpeg';
 import { 
   Compass, Sparkles, FolderHeart, Info, Contact, BookOpen, MessageCircle, MessageSquareText,
   ChevronDown, Flame, Globe2, Trophy, Clock, Milestone, ArrowRight, Check, X,
@@ -194,7 +195,7 @@ export default function App() {
                 <div className="absolute inset-0 border-2 border-purple-500/10 rounded-full animate-pulse" />
                 <div className="absolute inset-x-0 inset-y-0 border-t-2 border-purple-500 rounded-full animate-spin" />
                 <img 
-                  src="/src/assets/images/kalbhairav_logo_1781630281528.jpg" 
+                  src={logoUrl} 
                   alt="Kalbhairav Digitial Logo" 
                   className="absolute inset-0 m-auto w-10 h-10 object-cover rounded-xl"
                   referrerPolicy="no-referrer"

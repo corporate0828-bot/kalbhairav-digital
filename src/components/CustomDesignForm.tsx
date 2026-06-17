@@ -328,6 +328,7 @@ export default function CustomDesignForm({
                         <img 
                           src={referenceBase64} 
                           alt="preview" 
+                          referrerPolicy="no-referrer"
                           className="w-12 h-12 rounded object-cover border border-purple-500/30" 
                         />
                         <div className="text-left">

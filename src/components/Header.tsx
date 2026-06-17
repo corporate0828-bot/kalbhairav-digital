@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+const logoUrl = 'https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/90625502b1b8942bf7f9789430d2bc6a0624444c/WhatsApp%20Image%202026-06-16%20at%2022.42.34.jpeg';
 import { 
   Printer, 
   Menu, 
@@ -99,7 +100,7 @@ export default function Header({
         >
           <div className="w-10 h-10 rounded-xl overflow-hidden bg-black/45 border border-purple-500/30 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:rotate-4 shadow-lg shadow-purple-500/10 shrink-0">
             <img 
-              src="/src/assets/images/kalbhairav_logo_1781630281528.jpg" 
+              src={logoUrl} 
               alt="Kalbhairav Logo" 
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"

@@ -578,7 +578,7 @@ export default function AdminDashboard({
                   {products.map((p) => (
                     <div key={p.id} className="p-3.5 bg-black/60 rounded-xl flex items-center justify-between border border-purple-500/5 hover:border-purple-500/15 transition gap-4">
                       <div className="flex items-center gap-3.5 min-w-0">
-                        <img src={p.image} alt={p.name} className="w-12 h-12 rounded object-cover shrink-0" />
+                        <img src={p.image} alt={p.name} referrerPolicy="no-referrer" className="w-12 h-12 rounded object-cover shrink-0" />
                         <div className="text-left min-w-0">
                           <h5 className="text-xs sm:text-sm font-extrabold text-white truncate max-w-[250px]">{p.name}</h5>
                           <span className="text-[9.5px] font-mono text-purple-400 block uppercase font-bold tracking-widest">{p.category}</span>
@@ -685,7 +685,7 @@ export default function AdminDashboard({
                   {gallery.map((g) => (
                     <div key={g.id} className="p-3 bg-black/60 rounded-xl flex items-center justify-between border border-purple-500/5 hover:border-purple-500/15 transition gap-4">
                       <div className="flex items-center gap-3.5 min-w-0">
-                        <img src={g.imageUrl} alt={g.title} className="w-12 h-12 rounded object-cover shrink-0" />
+                        <img src={g.imageUrl} alt={g.title} referrerPolicy="no-referrer" className="w-12 h-12 rounded object-cover shrink-0" />
                         <div className="text-left min-w-0">
                           <h5 className="text-xs sm:text-sm font-extrabold text-white truncate max-w-[250px]">{g.title}</h5>
                           <span className="text-[9.5px] font-mono text-slate-500 block uppercase tracking-widest">{g.category} • {g.likes} Likes</span>

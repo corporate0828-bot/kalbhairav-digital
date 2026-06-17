@@ -1,4 +1,5 @@
 import { Printer, Heart, ArrowUp, Send, MessageSquareText } from 'lucide-react';
+const logoUrl = 'https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/90625502b1b8942bf7f9789430d2bc6a0624444c/WhatsApp%20Image%202026-06-16%20at%2022.42.34.jpeg';
 
 interface FooterProps {
   onNavigate: (tab: string) => void;
@@ -19,7 +20,7 @@ export default function Footer({ onNavigate, onOpenCategoryDemo }: FooterProps) 
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => onNavigate('home')}>
             <div className="w-9 h-9 rounded-xl overflow-hidden bg-black/45 border border-purple-500/20 flex items-center justify-center shadow-lg shadow-purple-500/10 shrink-0">
               <img 
-                src="/src/assets/images/kalbhairav_logo_1781630281528.jpg" 
+                src={logoUrl} 
                 alt="Kalbhairav Digitial Logo" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"

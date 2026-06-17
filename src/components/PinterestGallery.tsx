@@ -456,6 +456,7 @@ export default function PinterestGallery({
                 <img
                   src={lightboxItem.imageUrl}
                   alt={lightboxItem.title}
+                  referrerPolicy="no-referrer"
                   className="w-full h-auto max-h-[50vh] sm:max-h-[85vh] object-contain"
                 />
               </div>
