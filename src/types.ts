@@ -18,6 +18,8 @@ export interface GalleryItem {
   imageUrl: string;
   description: string;
   likes: number;
+  subServiceId?: string;
+  mainCategoryId?: string;
 }
 
 export interface CustomRequest {

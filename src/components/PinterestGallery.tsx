@@ -12,24 +12,33 @@ interface PinterestGalleryProps {
   onLikeItem: (id: string) => void;
   initialCategoryId?: string | null;
   onClearInitialCategoryId?: () => void;
+  initialSubServiceId?: string | null;
+  onClearInitialSubService?: () => void;
 }
 
 export default function PinterestGallery({ 
   galleryItems, 
   onLikeItem, 
   initialCategoryId,
-  onClearInitialCategoryId 
+  onClearInitialCategoryId,
+  initialSubServiceId,
+  onClearInitialSubService
 }: PinterestGalleryProps) {
   const [activeCategoryId, setActiveCategoryId] = useState<string>(initialCategoryId || "all");
-  const [activeSubServiceId, setActiveSubServiceId] = useState<string | null>(null);
+  const [activeSubServiceId, setActiveSubServiceId] = useState<string | null>(initialSubServiceId || null);
 
   React.useEffect(() => {
     if (initialCategoryId) {
       setActiveCategoryId(initialCategoryId);
-      setActiveSubServiceId(null);
+      if (initialSubServiceId) {
+        setActiveSubServiceId(initialSubServiceId);
+      } else {
+        setActiveSubServiceId(null);
+      }
       onClearInitialCategoryId?.();
+      onClearInitialSubService?.();
     }
-  }, [initialCategoryId, onClearInitialCategoryId]);
+  }, [initialCategoryId, initialSubServiceId, onClearInitialCategoryId, onClearInitialSubService]);
   const [expandedCats, setExpandedCats] = useState<Record<string, boolean>>({
     offset: true,
     digital: true,
@@ -76,18 +85,28 @@ export default function PinterestGallery({
 
   const filteredItems = galleryItems.filter((item) => {
     if (activeCategoryId === "all") return true;
+
+    // Strict direct matching when fields exist
+    if (item.subServiceId || item.mainCategoryId) {
+      if (activeSubServiceId) {
+        return item.subServiceId === activeSubServiceId;
+      }
+      if (activeCategoryId) {
+        return item.mainCategoryId === activeCategoryId;
+      }
+      return true;
+    }
     
     const titleLower = item.title.toLowerCase();
     const descLower = item.description.toLowerCase();
     const catLower = item.category.toLowerCase();
     
-    // If a specific subservice is active
+    // Fallback keyword-based filtering for custom/uploaded items
     if (activeSubServiceId) {
       const activeSub = SERVICES_DATA.flatMap(c => c.items).find(s => s.id === activeSubServiceId);
       if (!activeSub) return true;
       const subName = activeSub.name.toLowerCase();
       
-      // Exact ID checking or keyword mapping
       if (activeSubServiceId === "offset-wedding" || activeSubServiceId === "screen-wedding" || activeSubServiceId === "digital-wedding") {
         return catLower.includes("wedding") || titleLower.includes("wedding") || descLower.includes("wedding") || titleLower.includes("invit");
       }
@@ -107,16 +126,15 @@ export default function PinterestGallery({
         return catLower.includes("poster") || catLower.includes("packag") || titleLower.includes("poster") || titleLower.includes("box") || descLower.includes("diwali") || descLower.includes("brand");
       }
       
-      // Generic fallback keyword check
       const subKeywords = subName.split(" ");
       return subKeywords.some(kw => {
-        if (kw.length < 4) return false; // skip small words like "and", "of"
+        if (kw.length < 4) return false;
         if (kw === "printing" || kw === "card") return false;
         return titleLower.includes(kw) || descLower.includes(kw) || catLower.includes(kw);
       });
     }
     
-    // Otherwise, filter by main category
+    // Fallback category matching
     if (activeCategoryId === "offset") {
       return catLower.includes("wedding") || titleLower.includes("wedding") || titleLower.includes("invit") || catLower.includes("bill") || catLower.includes("register");
     }
@@ -422,7 +440,7 @@ export default function PinterestGallery({
               initial={{ scale: 0.94 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.94 }}
-              className="w-full max-w-3xl rounded-2xl overflow-hidden glass-panel relative flex flex-col sm:flex-row max-h-[85vh]"
+              className="w-full max-w-3xl rounded-2xl glass-panel relative flex flex-col sm:flex-row max-h-[90vh] sm:max-h-[85vh] overflow-y-auto sm:overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}

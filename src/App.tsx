@@ -28,6 +28,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [initialSubServiceId, setInitialSubServiceId] = useState<string | null>(null);
   const [initialGalleryCategoryId, setInitialGalleryCategoryId] = useState<string | null>(null);
+  const [initialGallerySubServiceId, setInitialGallerySubServiceId] = useState<string | null>(null);
   const [servicesMenuHovered, setServicesMenuHovered] = useState(false);
 
   // Database main components loaded from server api
@@ -100,8 +101,9 @@ export default function App() {
     }
   };
 
-  const handleOpenGalleryCategory = (categoryId: string) => {
+  const handleOpenGalleryCategory = (categoryId: string, subServiceId?: string | null) => {
     setInitialGalleryCategoryId(categoryId);
+    setInitialGallerySubServiceId(subServiceId || null);
     setActiveTab('gallery');
     window.scrollTo({ top: 350, behavior: 'smooth' });
   };
@@ -163,9 +165,9 @@ export default function App() {
         isServicesHovered={servicesMenuHovered}
         setIsServicesHovered={setServicesMenuHovered}
         onSelectSubService={(id) => {
-          const foundSub = SERVICES_DATA.flatMap(cat => cat.items).find(sub => sub.id === id);
-          if (foundSub) {
-            setSelectedGlobalSubService(foundSub);
+          const category = SERVICES_DATA.find(cat => cat.items.some(sub => sub.id === id));
+          if (category) {
+            handleOpenGalleryCategory(category.id, id);
           }
         }}
       />
@@ -222,7 +224,7 @@ export default function App() {
                 <div id="home-view-port">
                   {/* Hero Slider banner with floating papers */}
                   <HomeHero 
-                    onExploreServices={() => { handleOpenCategoryDemo('offset'); }}
+                    onExploreServices={() => { setActiveTab('services'); window.scrollTo(0, 0); }}
                     onRequestQuote={() => { setActiveTab('custom'); window.scrollTo(0, 0); }}
                   />
 
@@ -242,11 +244,14 @@ export default function App() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                       {/* Service Item (Offset Printing) */}
-                      <div className="glass-panel glass-panel-hover p-5 rounded-2xl flex flex-col justify-between group">
+                      <div 
+                        onClick={() => { handleOpenGalleryCategory('offset'); }}
+                        className="glass-panel glass-panel-hover p-5 rounded-2xl flex flex-col justify-between group cursor-pointer transition-all duration-300 hover:border-purple-500/35 hover:shadow-lg hover:shadow-purple-500/10 active:scale-[0.98] select-none text-left"
+                      >
                         <div>
                           {/* Logo on the left, Title/Label on the right */}
                           <div className="flex items-center gap-4 mb-4 text-left">
-                            <div className="w-12 h-12 rounded-xl bg-purple-950/40 border border-purple-500/15 flex items-center justify-center text-[#a855f7] font-bold shrink-0 shadow-inner">
+                            <div className="w-12 h-12 rounded-xl bg-purple-950/40 border border-purple-500/15 flex items-center justify-center text-[#a855f7] font-bold shrink-0 shadow-inner group-hover:border-purple-500/30 transition-colors">
                               <Printer className="w-6 h-6" />
                             </div>
                             <div className="text-left">
@@ -258,7 +263,7 @@ export default function App() {
                           {/* Relative Printing Showcase Image */}
                           <div className="relative rounded-xl overflow-hidden aspect-[16/10] border border-purple-500/10 mb-4 bg-zinc-950/80 group-hover:border-purple-500/25 transition-colors">
                             <img 
-                              src="/src/assets/images/offset_printing_press_1781637792302.jpg" 
+                              src="https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/4e428e9ccb0fa3e4657f2d97477ccf8511809f1e/447aeacc-35ef-432d-be4f-bebb81e9a843.jpg" 
                               alt="Offset Wedding Cards and Stationery" 
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-104"
                               referrerPolicy="no-referrer"
@@ -274,18 +279,21 @@ export default function App() {
                             ))}
                           </div>
                         </div>
-                        <button onClick={() => { handleOpenGalleryCategory('offset'); }} className="mt-6 text-xs font-mono font-bold text-purple-400 group flex items-center gap-1.5 transition hover:text-white uppercase text-left">
+                        <div className="mt-6 text-xs font-mono font-bold text-purple-400 group-hover:text-white flex items-center gap-1.5 transition uppercase text-left">
                           <span>View Offset Album</span>
                           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                        </button>
+                        </div>
                       </div>
 
                       {/* Service Item (Digital Printing) */}
-                      <div className="glass-panel glass-panel-hover p-5 rounded-2xl flex flex-col justify-between group">
+                      <div 
+                        onClick={() => { handleOpenGalleryCategory('digital'); }}
+                        className="glass-panel glass-panel-hover p-5 rounded-2xl flex flex-col justify-between group cursor-pointer transition-all duration-300 hover:border-purple-500/35 hover:shadow-lg hover:shadow-purple-500/10 active:scale-[0.98] select-none text-left"
+                      >
                         <div>
                           {/* Logo on the left, Title/Label on the right */}
                           <div className="flex items-center gap-4 mb-4 text-left">
-                            <div className="w-12 h-12 rounded-xl bg-purple-950/40 border border-purple-500/15 flex items-center justify-center text-[#a855f7] font-bold shrink-0 shadow-inner">
+                            <div className="w-12 h-12 rounded-xl bg-purple-950/40 border border-purple-500/15 flex items-center justify-center text-[#a855f7] font-bold shrink-0 shadow-inner group-hover:border-purple-500/30 transition-colors">
                               <Layers className="w-6 h-6" />
                             </div>
                             <div className="text-left">
@@ -297,7 +305,7 @@ export default function App() {
                           {/* Relative Printing Showcase Image */}
                           <div className="relative rounded-xl overflow-hidden aspect-[16/10] border border-purple-500/10 mb-4 bg-zinc-950/80 group-hover:border-purple-500/25 transition-colors">
                             <img 
-                              src="/src/assets/images/digital_prepress_press_1781638216196.jpg" 
+                              src="https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/76a3cff155c0ebfd0f6a59e1b44e05697226ed6e/b3bf5b18-e159-44a6-b606-46888c639772.jpg" 
                               alt="Digital Identity Prints" 
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-104"
                               referrerPolicy="no-referrer"
@@ -313,18 +321,21 @@ export default function App() {
                             ))}
                           </div>
                         </div>
-                        <button onClick={() => { handleOpenGalleryCategory('digital'); }} className="mt-6 text-xs font-mono font-bold text-purple-400 group flex items-center gap-1.5 transition hover:text-white uppercase text-left">
+                        <div className="mt-6 text-xs font-mono font-bold text-purple-400 group-hover:text-white flex items-center gap-1.5 transition uppercase text-left">
                           <span>View Digital Album</span>
                           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                        </button>
+                        </div>
                       </div>
 
                       {/* Service Item (Screen Printing) */}
-                      <div className="glass-panel glass-panel-hover p-5 rounded-2xl flex flex-col justify-between group">
+                      <div 
+                        onClick={() => { handleOpenGalleryCategory('screen'); }}
+                        className="glass-panel glass-panel-hover p-5 rounded-2xl flex flex-col justify-between group cursor-pointer transition-all duration-300 hover:border-purple-500/35 hover:shadow-lg hover:shadow-purple-500/10 active:scale-[0.98] select-none text-left"
+                      >
                         <div>
                           {/* Logo on the left, Title/Label on the right */}
                           <div className="flex items-center gap-4 mb-4 text-left">
-                            <div className="w-12 h-12 rounded-xl bg-purple-950/40 border border-purple-500/15 flex items-center justify-center text-[#a855f7] font-bold shrink-0 shadow-inner">
+                            <div className="w-12 h-12 rounded-xl bg-purple-950/40 border border-purple-500/15 flex items-center justify-center text-[#a855f7] font-bold shrink-0 shadow-inner group-hover:border-purple-500/30 transition-colors">
                               <Paintbrush className="w-6 h-6" />
                             </div>
                             <div className="text-left">
@@ -336,7 +347,7 @@ export default function App() {
                           {/* Relative Printing Showcase Image */}
                           <div className="relative rounded-xl overflow-hidden aspect-[16/10] border border-purple-500/10 mb-4 bg-zinc-950/80 group-hover:border-purple-500/25 transition-colors">
                             <img 
-                              src="/src/assets/images/screen_printing_press_1781637943171.jpg" 
+                              src="https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/6f8bad143c7d7b19574f73d0deede665599678af/31cd3e64-82e4-4c82-845e-2ac886317b7c.jpg" 
                               alt="Silkscreen Golden Inks" 
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-104"
                               referrerPolicy="no-referrer"
@@ -352,18 +363,21 @@ export default function App() {
                             ))}
                           </div>
                         </div>
-                        <button onClick={() => { handleOpenGalleryCategory('screen'); }} className="mt-6 text-xs font-mono font-bold text-purple-400 group flex items-center gap-1.5 transition hover:text-white uppercase text-left">
+                        <div className="mt-6 text-xs font-mono font-bold text-purple-400 group-hover:text-white flex items-center gap-1.5 transition uppercase text-left">
                           <span>View Screen Album</span>
                           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                        </button>
+                        </div>
                       </div>
 
                       {/* Service Item (Flex Printing) */}
-                      <div className="glass-panel glass-panel-hover p-5 rounded-2xl flex flex-col justify-between group">
+                      <div 
+                        onClick={() => { handleOpenGalleryCategory('flex'); }}
+                        className="glass-panel glass-panel-hover p-5 rounded-2xl flex flex-col justify-between group cursor-pointer transition-all duration-300 hover:border-purple-500/35 hover:shadow-lg hover:shadow-purple-500/10 active:scale-[0.98] select-none text-left"
+                      >
                         <div>
                           {/* Logo on the left, Title/Label on the right */}
                           <div className="flex items-center gap-4 mb-4 text-left">
-                            <div className="w-12 h-12 rounded-xl bg-purple-950/40 border border-purple-500/15 flex items-center justify-center text-[#a855f7] font-bold shrink-0 shadow-inner">
+                            <div className="w-12 h-12 rounded-xl bg-purple-950/40 border border-purple-500/15 flex items-center justify-center text-[#a855f7] font-bold shrink-0 shadow-inner group-hover:border-purple-500/30 transition-colors">
                               <Layout className="w-6 h-6" />
                             </div>
                             <div className="text-left">
@@ -375,7 +389,7 @@ export default function App() {
                           {/* Relative Printing Showcase Image */}
                           <div className="relative rounded-xl overflow-hidden aspect-[16/10] border border-purple-500/10 mb-4 bg-zinc-950/80 group-hover:border-purple-500/25 transition-colors">
                             <img 
-                              src="/src/assets/images/flex_printing_press_1781638076828.jpg" 
+                              src="https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/5f735206d545a9801654f9b7ef37335c135bdaad/eec85edd-d706-4d27-9917-88a45c93511d.jpg" 
                               alt="Flex Billboards and Signages" 
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-104"
                               referrerPolicy="no-referrer"
@@ -391,10 +405,10 @@ export default function App() {
                             ))}
                           </div>
                         </div>
-                        <button onClick={() => { handleOpenGalleryCategory('flex'); }} className="mt-6 text-xs font-mono font-bold text-purple-400 group flex items-center gap-1.5 transition hover:text-white uppercase text-left">
+                        <div className="mt-6 text-xs font-mono font-bold text-purple-400 group-hover:text-white flex items-center gap-1.5 transition uppercase text-left">
                           <span>View Flex Album</span>
                           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                        </button>
+                        </div>
                       </div>
                     </div>
                   </section>
@@ -430,7 +444,7 @@ export default function App() {
                     {/* Background Image with Dark Vignette/Gradients */}
                     <div className="absolute inset-0 w-full h-full">
                       <img 
-                        src="/src/assets/images/kaalbhairav_stats_bg_1781638804482.jpg" 
+                        src="https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/67fdff1010591082f39b4eb802e5288ca529f3c4/018373a6-fc6c-44b9-ae55-31c500f0d23d.jpg" 
                         alt="Kaalbhairav Digital Premium Production Showroom" 
                         className="w-full h-full object-cover opacity-75"
                         referrerPolicy="no-referrer"
@@ -498,6 +512,7 @@ export default function App() {
                             <div className="w-11 h-11 bg-purple-900/30 border border-purple-500/45 rounded-full flex items-center justify-center font-heading font-bold text-purple-300">
                               04
                             </div>
+                            <div className="h-px bg-purple-500/20 flex-grow hidden md:block" />
                           </div>
                           <h4 className="font-heading font-extrabold text-white text-base">Express Delivery Out</h4>
                           <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-light">
@@ -563,6 +578,7 @@ export default function App() {
                   onQuickInquiry={handleFeaturedQuickInquiry} 
                   initialSubServiceId={initialSubServiceId}
                   onClearInitialSubService={() => setInitialSubServiceId(null)}
+                  onNavigateToGalleryCategory={handleOpenGalleryCategory}
                 />
               )}
 
@@ -573,6 +589,8 @@ export default function App() {
                   onLikeItem={handleLikeItemState} 
                   initialCategoryId={initialGalleryCategoryId}
                   onClearInitialCategoryId={() => setInitialGalleryCategoryId(null)}
+                  initialSubServiceId={initialGallerySubServiceId}
+                  onClearInitialSubService={() => setInitialGallerySubServiceId(null)}
                 />
               )}
 

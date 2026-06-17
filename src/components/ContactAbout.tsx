@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Phone, Mail, MapPin, Calendar, HardDrive, ShieldCheck, MailCheck, Send, MessageSquare, ChevronRight, Map } from 'lucide-react';
+import { Phone, Mail, MapPin, Calendar, HardDrive, ShieldCheck, MailCheck, Send, MessageSquare, ChevronRight, Map, ExternalLink } from 'lucide-react';
 import { Machine, TeamMember } from '../types';
 
 interface ContactAboutProps {
@@ -73,7 +73,7 @@ export default function ContactAbout({ machinery, team }: ContactAboutProps) {
           <div className="lg:col-span-5" id="factory-curtain">
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3] group border border-purple-500/15">
               <img
-                src="/src/assets/images/kalbhairav_logo_1781630281528.jpg"
+                src="https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/feda68cfc1639c394b1f66242d978f37dc903aad/WhatsApp%20Image%202026-06-16%20at%2022.42.34.jpeg"
                 alt="Bhairavnath factory press"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-104"
@@ -136,7 +136,7 @@ export default function ContactAbout({ machinery, team }: ContactAboutProps) {
             {team.map((t) => (
               <div key={t.id} className="w-64 glass-panel rounded-2xl p-5 text-center group transition-transform duration-300 hover:-translate-y-1">
                 <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4 border-2 border-purple-500/20 group-hover:border-purple-500 transition-colors">
-                  <img src={t.image} alt={t.name} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300" />
+                  <img src={t.image} alt={t.name} referrerPolicy="no-referrer" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300" />
                 </div>
                 <h4 className="font-heading font-bold text-base text-white">{t.name}</h4>
                 <p className="font-mono text-[11px] text-purple-400 tracking-wide mt-1 font-semibold uppercase">{t.role}</p>
@@ -175,8 +175,18 @@ export default function ContactAbout({ machinery, team }: ContactAboutProps) {
                     Physical Press Address
                   </h4>
                   <p className="text-sm sm:text-base font-semibold text-white mt-1 leading-relaxed">
-                    Bhairavnath Digital, Wai-Bavdhan, Satara, Maharashtra 412804, India
+                    Bhairavnath Digital, WV7R+8W7, Bavdhan, Maharashtra 412804, India
                   </p>
+                  <a 
+                    href="https://www.google.com/maps/search/?api=1&query=WV7R%2B8W7,+Bavdhan,+Maharashtra+412804" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="inline-flex items-center gap-1.5 text-xs text-[#a855f7] hover:text-white mt-1.5 font-mono font-bold transition-all duration-300 underline underline-offset-4 decoration-purple-500/40 select-none"
+                    id="open-in-maps-btn"
+                  >
+                    <span>Open in Google Maps</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
                 </div>
               </div>
 
@@ -221,7 +231,7 @@ export default function ContactAbout({ machinery, team }: ContactAboutProps) {
             <div className="rounded-xl overflow-hidden aspect-[16/9] border border-purple-500/15 relative" id="contact-gmap-panel">
               <iframe
                 title="Bhairavnath Digital Google Map"
-                src="https://maps.google.com/maps?q=Bhairavnath%20Digital,%20Wai-Bavdhan,%20Satara,%20Maharashtra%20412804%20India&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=WV7R%2B8W7,%20Bavdhan,%20Maharashtra%20412804&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0, filter: 'invert(90%) hue-rotate(240deg) brightness(85%) contrast(95%)' }}

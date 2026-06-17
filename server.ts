@@ -4,6 +4,7 @@ import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI, Type } from '@google/genai';
 import { ServerData, CustomRequest, Product, GalleryItem } from './src/types';
+import { generateGallerySeed } from './src/data/galleryGenerator';
 
 const app = express();
 const PORT = 3000;
@@ -184,7 +185,7 @@ const INITIAL_DATA: ServerData = {
       type: "4-Color Offset Press with UV In-Line Coater",
       speed: "18,000 sheets / hour",
       description: "The crown jewel of traditional lithographic printing. Delivering immaculate registration, color fidelity, and dynamic satin UV coatings at unbelievable speeds.",
-      image: "/src/assets/images/heidelberg_speedmaster_1781641181399.jpg"
+      image: "https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/4e1e475b3adbbb3cba198664e4f5fbee96c7466b/037ceea9-fe8f-4c3a-89c6-3dbf623e6d4e.jpg"
     },
     {
       id: "m2",
@@ -192,7 +193,7 @@ const INITIAL_DATA: ServerData = {
       type: "High-Speed Digital Laser Production Engine",
       speed: "140 ppm (A4)",
       description: "State-of-the-art digital printing with automatic color correction and heavy-paper registration controllers. Perfect for high-speed small-run flyers, certificates, and brochures on up to 450 GSM media.",
-      image: "/src/assets/images/konica_accuriopress_1781641304017.jpg"
+      image: "https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/4e1e475b3adbbb3cba198664e4f5fbee96c7466b/Gemini_Generated_Image_4r0v1w4r0v1w4r0v.png"
     }
   ],
   team: [
@@ -200,13 +201,13 @@ const INITIAL_DATA: ServerData = {
       id: "t1",
       name: "Nikhil Pisal",
       role: "Founder & Managing Director",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
+      image: "https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/7e3857ec2c1fae38bd9768de518c0234d27e5ef7/Screenshot%202026-06-17%20020110.png"
     },
     {
       id: "t2",
       name: "Nishant Pisal",
       role: "Head of Creative Pre-Press & Operations",
-      image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80"
+      image: "https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/586cf62384fa852cf6bfca6cba91f65bb2934c2a/5dc6b594-1407-49de-a982-819b8d406eea.jpg"
     }
   ],
   testimonials: [
@@ -238,14 +239,26 @@ const INITIAL_DATA: ServerData = {
 function getDB(): ServerData {
   try {
     if (!fs.existsSync(DB_PATH)) {
-      fs.writeFileSync(DB_PATH, JSON.stringify(INITIAL_DATA, null, 2), 'utf-8');
-      return INITIAL_DATA;
+      const copy = { ...INITIAL_DATA };
+      copy.gallery = generateGallerySeed();
+      fs.writeFileSync(DB_PATH, JSON.stringify(copy, null, 2), 'utf-8');
+      return copy;
     }
     const raw = fs.readFileSync(DB_PATH, 'utf-8');
-    return JSON.parse(raw);
+    const db = JSON.parse(raw) as ServerData;
+    
+    // Seed exactly 440 items if there is less than 400 items in the gallery
+    if (!db.gallery || db.gallery.length < 400) {
+      console.log("Seeding exactly 440 high-definition custom photo samples...");
+      db.gallery = generateGallerySeed();
+      fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2), 'utf-8');
+    }
+    return db;
   } catch (err) {
     console.error("Read DB Error, falling back to initial data:", err);
-    return INITIAL_DATA;
+    const fallback = { ...INITIAL_DATA };
+    fallback.gallery = generateGallerySeed();
+    return fallback;
   }
 }
 

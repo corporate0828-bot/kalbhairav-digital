@@ -20,9 +20,15 @@ interface ServicesCatalogProps {
   onQuickInquiry: (productName: string) => void;
   initialSubServiceId?: string | null;
   onClearInitialSubService?: () => void;
+  onNavigateToGalleryCategory?: (categoryId: string, subServiceId?: string) => void;
 }
 
-export default function ServicesCatalog({ onQuickInquiry, initialSubServiceId, onClearInitialSubService }: ServicesCatalogProps) {
+export default function ServicesCatalog({ 
+  onQuickInquiry, 
+  initialSubServiceId, 
+  onClearInitialSubService,
+  onNavigateToGalleryCategory
+}: ServicesCatalogProps) {
   const [activeCategoryId, setActiveCategoryId] = useState<string>("offset");
   const [selectedSubService, setSelectedSubService] = useState<SubService | null>(null);
 
@@ -78,7 +84,7 @@ export default function ServicesCatalog({ onQuickInquiry, initialSubServiceId, o
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-zinc-950/40 border border-purple-500/10 rounded-2xl overflow-hidden shadow-2xl p-4 sm:p-6 lg:p-8" id="corporate-portal-wrapper">
         
         {/* Left Side Tab Navigation Column - (Like 'Corporate Banking', 'Loans for MSME', etc) */}
-        <div className="lg:col-span-4 space-y-3 border-r lg:border-r border-purple-500/5 lg:pr-6 flex flex-col justify-start">
+        <div className="lg:col-span-4 space-y-3 border-b lg:border-b-0 lg:border-r border-purple-500/5 pb-6 lg:pb-0 lg:pr-6 flex flex-col justify-start">
           <span className="font-mono text-purple-400/60 font-bold uppercase tracking-widest text-[10px] pl-2 block mb-2">
             Select Live Department
           </span>
@@ -163,8 +169,12 @@ export default function ServicesCatalog({ onQuickInquiry, initialSubServiceId, o
               {activeCategory.items.map((sub, idx) => (
                 <div
                   key={sub.id}
-                  onClick={() => setSelectedSubService(sub)}
-                  className="group bg-[#04060d]/65 hover:bg-[#0a0d1d]/85 border border-[#3b0764]/20 hover:border-[#a855f7]/60 rounded-xl p-4.5 cursor-pointer flex flex-col justify-between text-left relative overflow-hidden"
+                  onClick={() => {
+                    if (onNavigateToGalleryCategory) {
+                      onNavigateToGalleryCategory(activeCategoryId, sub.id);
+                    }
+                  }}
+                  className="group bg-[#04060d]/65 hover:bg-[#0a0d1d]/85 border border-[#3b0764]/20 hover:border-[#a855f7]/60 rounded-xl p-4.5 cursor-pointer flex flex-col justify-between text-left relative overflow-hidden transition-all duration-300 active:scale-[0.98] select-none"
                 >
                   <div className="space-y-3">
                     {/* Tiny decorative indicator */}
@@ -176,7 +186,7 @@ export default function ServicesCatalog({ onQuickInquiry, initialSubServiceId, o
                         </span>
                       </div>
                       <span className="text-[9.5px] font-mono text-purple-400 bg-purple-950/30 px-2 py-0.5 rounded border border-purple-500/10 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                        View Demo Img
+                        View Album
                       </span>
                     </div>
 
@@ -188,7 +198,7 @@ export default function ServicesCatalog({ onQuickInquiry, initialSubServiceId, o
                   </div>
 
                   <div className="mt-4 pt-3 border-t border-purple-500/5 flex items-center justify-between text-[11px] font-mono font-bold text-slate-500 group-hover:text-white transition-colors">
-                    <span className="uppercase tracking-wider">Inspect Blueprint</span>
+                    <span className="uppercase tracking-wider">View Album</span>
                     <ArrowRight className="w-3.5 h-3.5 text-[#a855f7]" />
                   </div>
 
@@ -200,7 +210,7 @@ export default function ServicesCatalog({ onQuickInquiry, initialSubServiceId, o
           </div>
 
           <p className="text-[11px] font-mono text-slate-600 text-left mt-8 uppercase tracking-widest">
-            ★ click any sub-service to inspect high-resolution demo prints, blueprints, paper GSM, and download direct PDF specifications.
+            ★ click any sub-service to view the relevant high-resolution album section immediately.
           </p>
         </div>
       </div>

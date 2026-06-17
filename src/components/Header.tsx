@@ -296,7 +296,7 @@ export default function Header({
                         </div>
 
                         <div className="mt-3.5 pt-2 border-t border-purple-500/5 flex items-center justify-between text-[10px] font-mono font-bold text-slate-500 group-hover:text-white transition-colors">
-                          <span className="uppercase tracking-wider text-[9px]">View Demo Sheet</span>
+                          <span className="uppercase tracking-wider text-[9px]">View Album</span>
                           <ArrowUpRight className="w-3 h-3 text-[#a855f7]" />
                         </div>
                       </div>
@@ -306,11 +306,11 @@ export default function Header({
 
                 <div className="mt-5 pt-3 border-t border-purple-500/5 text-left flex items-center justify-between">
                   <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">
-                    ★ click any option above for specifications catalog
+                    ★ click any option above to view catalog albums
                   </span>
                   <div className="flex items-center gap-1.5 text-[10px] font-mono text-purple-400 font-bold uppercase">
                     <Sparkle className="w-3.5 h-3.5 animate-pulse text-[#a855f7]" />
-                    <span>Real-Time Specifications</span>
+                    <span>Professional Albums</span>
                   </div>
                 </div>
               </div>

@@ -85,9 +85,14 @@ export default function Footer({ onNavigate, onOpenCategoryDemo }: FooterProps) 
 
       {/* Extreme bottom copyright and credit */}
       <div className="max-w-7xl mx-auto px-6 border-t border-purple-500/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-600">
-        <p className="uppercase text-center sm:text-left">
-          © 2026 Bhairavnath Digital. All physical & structural copyrights reserved.
-        </p>
+        <div className="flex flex-col gap-1 items-center sm:items-start">
+          <p className="uppercase text-center sm:text-left">
+            © 2026 Bhairavnath Digital. All physical & structural copyrights reserved.
+          </p>
+          <p className="text-zinc-500 text-[11px] lowercase tracking-wide text-center sm:text-left">
+            designed by <strong className="text-zinc-400 font-semibold uppercase tracking-wider">nishant pisal</strong> | full stack mern stack developer | connect: <a href="mailto:corporate0828@gmail.com" className="hover:text-purple-400 underline transition-all">corporate0828@gmail.com</a>
+          </p>
+        </div>
 
         <div className="flex items-center gap-4.5">
           <button
