@@ -73,7 +73,7 @@ export default function ContactAbout({ machinery, team }: ContactAboutProps) {
           <div className="lg:col-span-5" id="factory-curtain">
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3] group border border-purple-500/15">
               <img
-                src="https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/feda68cfc1639c394b1f66242d978f37dc903aad/WhatsApp%20Image%202026-06-16%20at%2022.42.34.jpeg"
+                src="https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/90625502b1b8942bf7f9789430d2bc6a0624444c/WhatsApp%20Image%202026-06-16%20at%2022.42.34.jpeg"
                 alt="Bhairavnath factory press"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-104"

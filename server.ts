@@ -185,7 +185,7 @@ const INITIAL_DATA: ServerData = {
       type: "4-Color Offset Press with UV In-Line Coater",
       speed: "18,000 sheets / hour",
       description: "The crown jewel of traditional lithographic printing. Delivering immaculate registration, color fidelity, and dynamic satin UV coatings at unbelievable speeds.",
-      image: "https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/4e1e475b3adbbb3cba198664e4f5fbee96c7466b/037ceea9-fe8f-4c3a-89c6-3dbf623e6d4e.jpg"
+      image: "https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/main/037ceea9-fe8f-4c3a-89c6-3dbf623e6d4e.jpg"
     },
     {
       id: "m2",
@@ -193,7 +193,7 @@ const INITIAL_DATA: ServerData = {
       type: "High-Speed Digital Laser Production Engine",
       speed: "140 ppm (A4)",
       description: "State-of-the-art digital printing with automatic color correction and heavy-paper registration controllers. Perfect for high-speed small-run flyers, certificates, and brochures on up to 450 GSM media.",
-      image: "https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/4e1e475b3adbbb3cba198664e4f5fbee96c7466b/Gemini_Generated_Image_4r0v1w4r0v1w4r0v.png"
+      image: "https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/main/Gemini_Generated_Image_4r0v1w4r0v1w4r0v.png"
     }
   ],
   team: [
@@ -201,13 +201,13 @@ const INITIAL_DATA: ServerData = {
       id: "t1",
       name: "Nikhil Pisal",
       role: "Founder & Managing Director",
-      image: "https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/7e3857ec2c1fae38bd9768de518c0234d27e5ef7/Screenshot%202026-06-17%20020110.png"
+      image: "https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/defacb02ecd56de77f580289c1e13d147dd4ede3/Screenshot%202026-06-17%20020110.png"
     },
     {
       id: "t2",
       name: "Nishant Pisal",
       role: "Head of Creative Pre-Press & Operations",
-      image: "https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/586cf62384fa852cf6bfca6cba91f65bb2934c2a/5dc6b594-1407-49de-a982-819b8d406eea.jpg"
+      image: "https://raw.githubusercontent.com/corporate0828-bot/kalbhairav-digital/d71e71fcaa02642375be47389a40e5a07e5a5c68/photo.jpg"
     }
   ],
   testimonials: [
@@ -247,10 +247,40 @@ function getDB(): ServerData {
     const raw = fs.readFileSync(DB_PATH, 'utf-8');
     const db = JSON.parse(raw) as ServerData;
     
+    let dbUpdated = false;
+
+    // Ensure we have FAQs
+    if (!db.faqs || db.faqs.length === 0) {
+      db.faqs = INITIAL_DATA.faqs;
+      dbUpdated = true;
+    }
+
+    // Ensure we have machinery data
+    if (!db.machines || db.machines.length === 0) {
+      db.machines = INITIAL_DATA.machines;
+      dbUpdated = true;
+    }
+
+    // Ensure we have team members
+    if (!db.team || db.team.length === 0) {
+      db.team = INITIAL_DATA.team;
+      dbUpdated = true;
+    }
+
+    // Ensure we have testimonials
+    if (!db.testimonials || db.testimonials.length === 0) {
+      db.testimonials = INITIAL_DATA.testimonials;
+      dbUpdated = true;
+    }
+
     // Seed exactly 440 items if there is less than 400 items in the gallery
     if (!db.gallery || db.gallery.length < 400) {
       console.log("Seeding exactly 440 high-definition custom photo samples...");
       db.gallery = generateGallerySeed();
+      dbUpdated = true;
+    }
+
+    if (dbUpdated) {
       fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2), 'utf-8');
     }
     return db;
@@ -537,6 +567,9 @@ Always return strictly valid JSON corresponding precisely to these properties. D
 
 // FRONTEND BUILD & VITE SERVING
 async function startServer() {
+  // Expose the local assets images folder as static path so that /src/assets/images urls load beautifully
+  app.use('/src/assets/images', express.static(path.join(process.cwd(), 'src/assets/images')));
+
   if (process.env.NODE_ENV !== "production") {
     // Development mode
     const vite = await createViteServer({
